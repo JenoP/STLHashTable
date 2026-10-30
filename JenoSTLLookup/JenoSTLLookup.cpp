@@ -6,7 +6,7 @@
 #include "HashTable.h"
 
 
-constexpr auto CMD_LINE_USAGE_STR = "JenoSTLLookup.exe wavy_surface_100000.stl {{0.000000e+00,0.000000e+00,0.000000e+00} {1.000000e+00,1.000000e+00,6.646931e-01} {0.000000e+00,1.000000e+00,0.000000e+00}}";
+constexpr auto CMD_LINE_USAGE_STR = "JenoSTLLookup.exe wavy_surface_100000.stl {{0.000000e+00,0.000000e+00,0.000000e+00}{1.000000e+00,1.000000e+00,6.646931e-01}{0.000000e+00,1.000000e+00,0.000000e+00}}";
 
 
 static void PrintUsage()
@@ -39,10 +39,8 @@ static std::optional<Triangle> GetTriangle(const std::string& triangleStr)
 	return std::optional<Triangle>({ p1, p2, p3 });
 }
 
-static bool AreValidInputArgs(const std::string& stlFileStr, const std::string& triangleStr)
+static bool AreValidInputArgs(const std::string& stlFileStr, const auto& triangle)
 {
-	const auto& triangle = GetTriangle(triangleStr);
-
 	return std::filesystem::exists(stlFileStr) && triangle.has_value();
 }
 
@@ -51,10 +49,17 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		if (argc != 3 || !AreValidInputArgs(argv[1], argv[2]))
+		if (argc != 3)
 		{
 			PrintUsage();
+			return EXIT_FAILURE;
+		}
 
+		const auto& triangle = GetTriangle(argv[2]);
+
+		if (!AreValidInputArgs(argv[1], triangle))
+		{
+			PrintUsage();
 			return EXIT_FAILURE;
 		}
 
@@ -68,7 +73,7 @@ int main(int argc, char* argv[])
 		std::cout << "Time taken for Hash table construction: " << ms << " MILLIseconds" << std::endl;
 
 		start = std::chrono::steady_clock::now();
-		auto triangleExists = hashTable.Lookup(GetTriangle(argv[2]).value());
+		auto triangleExists = hashTable.Lookup(*triangle);
 		end = std::chrono::steady_clock::now();
 
 		std::cout << (triangleExists ? "Given triangle exists." : "Given triangle NOT exists.") << std::endl;

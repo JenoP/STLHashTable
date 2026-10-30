@@ -16,7 +16,7 @@ void HashTable::Construct(const std::string& stlFileStr, const uint32_t maxEntri
 	m_TriangleLookupTable.resize(maxEntries);
 
 	std::ifstream stlFileStream(stlFileStr);
-	if (!stlFileStream.is_open())
+	if (!stlFileStream)
 	{
 		throw std::runtime_error("Unable to open given STL file.");
 	}

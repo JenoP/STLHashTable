@@ -30,7 +30,7 @@ private:
 	Triangle GetTriangle(std::ifstream& stlFileStream) const;
 
 private:
-	typedef std::unique_ptr<Triangle> TriangleObjPtr;
+	using TriangleObjPtr = std::unique_ptr<Triangle>;
 
 	std::vector<TriangleObjPtr> m_TriangleLookupTable;
 };
