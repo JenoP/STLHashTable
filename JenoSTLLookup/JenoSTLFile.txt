@@ -1,0 +1,16 @@
+solid wavy_surface
+  facet normal -5.544153e-01 1.231578e-03 8.322393e-01
+    outer loop
+      vertex 0.000000e+00 0.000000e+00 0.000000e+00
+      vertex 1.000000e+00 0.000000e+00 6.661729e-01
+      vertex 1.000000e+00 1.000000e+00 6.646931e-01
+    endloop
+  endfacet
+  facet normal -5.535618e-01 0.000000e+00 8.328081e-01
+    outer loop
+      vertex 0.000000e+00 0.000000e+00 0.000000e+00
+      vertex 1.000000e+00 1.000000e+00 6.646931e-01
+      vertex 0.000000e+00 1.000000e+00 0.000000e+00
+    endloop
+  endfacet
+endsolid wavy_surface

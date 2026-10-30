@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="JenoSTLLookup/JenoSTLLookup.vcxproj" Id="4c3b6387-1598-41f8-b911-2a0aa147dab6" />
+</Solution>
