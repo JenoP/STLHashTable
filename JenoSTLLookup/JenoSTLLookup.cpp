@@ -17,12 +17,17 @@ static void PrintUsage()
 	std::cout << "Example ==> " << "\"" << CMD_LINE_USAGE_STR << "\"" << std::endl;
 }
 
+// Parse and construct triangle object from command line input.
+
 static std::optional<Triangle> GetTriangle(const std::string& triangleStr)
 {
 	std::stringstream triangleStrStream(triangleStr);
 
 	Point3 p1, p2, p3;
 	char dummy;
+
+	// Example command line input below that represents single triangle.
+    // "{{0.000000e+00,0.000000e+00,0.000000e+00}{1.000000e+00,1.000000e+00,6.646931e-01}{0.000000e+00,1.000000e+00,0.000000e+00}}"
 
 	auto parseSuccess = triangleStrStream &&
 		(triangleStrStream >> dummy >> dummy >> p1.x >> dummy >> p1.y >> dummy >>

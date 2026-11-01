@@ -1,4 +1,3 @@
-#include <iostream>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -13,13 +12,14 @@ constexpr auto OUTER_LOOP_STR = "outer loop";
 
 void HashTable::Construct(const std::string& stlFileStr, const uint32_t maxEntries)
 {
-	m_TriangleLookupTable.resize(maxEntries);
-
 	std::ifstream stlFileStream(stlFileStr);
 	if (!stlFileStream)
 	{
 		throw std::runtime_error("Unable to open given STL file.");
 	}
+
+	// Allocates space to construct index/lookup table rather than storing values directly.
+	m_TriangleLookupTable.resize(maxEntries);
 
 	std::string line;
 	while (std::getline(stlFileStream, line))

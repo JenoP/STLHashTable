@@ -21,7 +21,7 @@ public:
 	HashTable& operator=(const HashTable&) = delete;
 	HashTable& operator=(HashTable&&) = delete;
 
-	// This just builds a Lookup/Index table rather than storing triangles directly.
+	// This just constructs a Lookup/Index table rather than storing triangles directly.
 	void Construct(const std::string& stlFileStr, const uint32_t maxEntries = MAX_TRIANGLES);
 
 	bool Lookup(const Triangle& srcTriangle) const;
