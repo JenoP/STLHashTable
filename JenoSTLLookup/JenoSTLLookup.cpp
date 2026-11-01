@@ -11,9 +11,9 @@ constexpr auto CMD_LINE_USAGE_STR = "JenoSTLLookup.exe wavy_surface_100000.stl {
 
 static void PrintUsage()
 {
-	std::cout << "Invalid input arguments. Please check the usage." << std::endl;
+	std::cout << "Invalid input arguments." << std::endl;
 
-	std::cout << "Usage ==> JenoSTLLookup.exe <STL file> <Triangle to lookup>" << std::endl;
+	std::cout << "Usage ==> JenoSTLLookup.exe <STL file> <Triangle to lookup>" << std::endl << std::endl;
 	std::cout << "Example ==> " << "\"" << CMD_LINE_USAGE_STR << "\"" << std::endl;
 }
 
@@ -39,7 +39,7 @@ static std::optional<Triangle> GetTriangle(const std::string& triangleStr)
 	return std::optional<Triangle>({ p1, p2, p3 });
 }
 
-static bool AreValidInputArgs(const std::string& stlFileStr, const auto& triangle)
+static bool AreValidInputArgs(const std::string& stlFileStr, const std::optional<Triangle>& triangle)
 {
 	return std::filesystem::exists(stlFileStr) && triangle.has_value();
 }
@@ -55,9 +55,10 @@ int main(int argc, char* argv[])
 			return EXIT_FAILURE;
 		}
 
+		const std::string& stlFileStr = argv[1];
 		const auto& triangle = GetTriangle(argv[2]);
 
-		if (!AreValidInputArgs(argv[1], triangle))
+		if (!AreValidInputArgs(stlFileStr, triangle))
 		{
 			PrintUsage();
 			return EXIT_FAILURE;
@@ -66,7 +67,7 @@ int main(int argc, char* argv[])
 		HashTable hashTable;
 
 		auto start = std::chrono::steady_clock::now();
-		hashTable.Construct(argv[1]);
+		hashTable.Construct(stlFileStr);
 		auto end = std::chrono::steady_clock::now();
 
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -78,8 +79,8 @@ int main(int argc, char* argv[])
 
 		std::cout << (triangleExists ? "Given triangle exists." : "Given triangle NOT exists.") << std::endl;
 
-		ms = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-		std::cout << "Time taken for given triangle Lookup: " << ms << " MICROseconds" << std::endl;
+		ms = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+		std::cout << "Time taken for given triangle Lookup: " << ms << " NANOseconds" << std::endl;
 	}
 	catch (const std::exception& ex)
 	{

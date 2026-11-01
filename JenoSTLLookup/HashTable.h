@@ -27,10 +27,12 @@ public:
 	bool Lookup(const Triangle& srcTriangle) const;
 
 private:
-	Triangle GetTriangle(std::ifstream& stlFileStream) const;
+	using TriangleObjPtr = std::shared_ptr<Triangle>;
+
+	void _ConstructInternal(TriangleObjPtr&& triangleObjPtr);
+
+	Triangle _GetTriangle(std::ifstream& stlFileStream) const;
 
 private:
-	using TriangleObjPtr = std::unique_ptr<Triangle>;
-
 	std::vector<TriangleObjPtr> m_TriangleLookupTable;
 };

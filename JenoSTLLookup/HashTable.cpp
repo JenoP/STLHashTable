@@ -26,20 +26,7 @@ void HashTable::Construct(const std::string& stlFileStr, const uint32_t maxEntri
 	{
 		if (line.find(OUTER_LOOP_STR) != std::string::npos)
 		{
-			auto triangleObjPtr = std::make_unique<Triangle>(GetTriangle(stlFileStream));
-
-			const auto index = hashTriangle(std::get<0>(*triangleObjPtr), std::get<1>(*triangleObjPtr), std::get<2>(*triangleObjPtr));
-
-			if (index >= m_TriangleLookupTable.size())
-			{
-				throw std::runtime_error("Index out of range: " + std::to_string(index));
-			}
-
-			m_TriangleLookupTable[index] = std::move(triangleObjPtr);
-
-#ifdef _DEBUG
-			//std::cout << "Triangle inserted at index: " << index << std::endl;
-#endif
+			_ConstructInternal(std::make_shared<Triangle>(_GetTriangle(stlFileStream)));
 		}
 	}
 }
@@ -59,7 +46,26 @@ bool HashTable::Lookup(const Triangle& srcTriangle) const
 	return triangleExists;
 }
 
-Triangle HashTable::GetTriangle(std::ifstream& stlFileStream) const
+void HashTable::_ConstructInternal(TriangleObjPtr&& triangleObjPtr)
+{
+	const auto index = hashTriangle(std::get<0>(*triangleObjPtr), std::get<1>(*triangleObjPtr), std::get<2>(*triangleObjPtr));
+
+	if (index >= m_TriangleLookupTable.size())
+	{
+		throw std::runtime_error("Index out of range: " + std::to_string(index));
+	}
+
+	if (!m_TriangleLookupTable[index])
+	{
+		m_TriangleLookupTable[index] = std::move(triangleObjPtr);
+	}
+
+#ifdef _DEBUG
+	//std::cout << "Triangle inserted at index: " << index << std::endl;
+#endif
+}
+
+Triangle HashTable::_GetTriangle(std::ifstream& stlFileStream) const
 {
 	Point3 p1, p2, p3;
 	std::string dummy;
